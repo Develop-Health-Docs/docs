@@ -1,13 +1,33 @@
 ---
-title: "Get Patient"
-api: "GET https://api.develophealth.io/api/patient/{id}"
-description: "This endpoint gets a patient"
+title: "Create or Update Patient"
+api: "POST https://api.develophealth.io/api/patient/{id}"
+description: "This endpoint creates or updates a patient"
 ---
 
 ### Path
 
 <ParamField path="id" type="string">
   The id of the patient
+</ParamField>
+
+### Body
+
+For any of these fields, if the value is not provided, the existing value will be kept.
+If the value is provided, it will be updated.
+
+<ParamField body="details" optional={true} type="object">
+  This is an object containing the patient's details, such as name, address,
+  etc.
+</ParamField>
+
+<ParamField body="intakeQuestions" optional={true} type="array">
+  This is an array of intake questions for the patient. Each element in the
+  array should be an object with the following fields: question, answer,
+  choices, and type.
+</ParamField>
+
+<ParamField body="prescriptions" optional={true} type="array">
+  This is an array of prescription objects for the patient.
 </ParamField>
 
 ### Response
@@ -42,6 +62,9 @@ The full JSON representation of the patient object
 
 </ResponseField>
 
+<RequestExample>
+
+</RequestExample>
 <ResponseExample>
 ```json Response
 {
