@@ -25,10 +25,18 @@
       "pages": ["api-reference/authentication"]
     },
     {
-      "group": "Endponts",
+      "group": "Patient",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create_or_update"
+        "api-reference/patient/get",
+        "api-reference/patient/create_or_update",
+        "api-reference/openapi"
+      ]
+    },
+    {
+      "group": "Evidence",
+      "pages": [
+        "api-reference/evidence/get",
+        "api-reference/evidence/create_or_update"
       ]
     }
   ]

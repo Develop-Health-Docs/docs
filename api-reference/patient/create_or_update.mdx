@@ -1,0 +1,31 @@
+---
+title: "Create or Update Patient"
+api: "POST https://api.develophealth.io/api/patient/{id}"
+description: "This endpoint creates or updates a patient"
+---
+
+### Path
+
+<ParamField path="id" type="string">
+  The id of the patient
+</ParamField>
+
+### Body
+
+<ParamField body="first_name" type="string">
+  Patient first name
+</ParamField>
+
+<ParamField body="last_name" type="string">
+  Patient last name
+</ParamField>
+
+<ParamField body="birth_date" type="string">
+  The patients birth date in the format YYYY-MM-DD
+</ParamField>
+
+### Response
+
+<Snippet file="patient-response.mdx" />
+
+<Snippet file="patient-response-example.mdx" />

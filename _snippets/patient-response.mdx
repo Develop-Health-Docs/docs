@@ -4,21 +4,17 @@ The full JSON representation of the patient object
 
 <Expandable title="Toggle object">
 
-<ResponseField name="id" type="string">
-  This is the unique identifier for the patient.
-</ResponseField>
+<ParamField body="first_name" type="string">
+  Patient first name
+</ParamField>
 
-<ResponseField name="details" type="object">
-  This is an object containing the patient's details.
-</ResponseField>
+<ParamField body="last_name" type="string">
+  Patient last name
+</ParamField>
 
-<ResponseField name="intakeQuestions" type="array">
-  This is an array of intake questions for the patient.
-</ResponseField>
-
-<ResponseField name="prescriptions" type="array">
-  This is an array of prescription objects for the patient.
-</ResponseField>
+<ParamField body="birth_date" type="string">
+  The patients birth date in the format YYYY-MM-DD
+</ParamField>
 
 </Expandable>
 
