@@ -1,0 +1,30 @@
+---
+title: "Integration Checklist"
+description: "A checklist to help you integrate with the Develop Health API"
+---
+
+The following checklist is designed to help you integrate with the Develop Health API. If you've covered all these points, you should be ready to go!
+
+## Checklist
+
+- **Authentication** - You've received your API key for both development and production environments
+
+- **Creating patients** - You're calling the /patient endpoint whenever either of the following occurs:
+
+  - When a new patient is created in your system
+  - When an existing patient is updated in your system your system
+
+- **Creating Evidence** - You're calling the /evidence endpoint to create the following pieces of evidence:
+
+  - **Required Evidence**
+    - Prescription
+    - Questionnaire and/or most recent visit note
+  - **Optional Evidence** (optional but highly recommended if you have them)
+    - Medication history
+    - Problems list
+    - Other visit notes
+    - Discontinued medications
+
+- **Updating evidence** - You're calling the /evidence endpoint whenever any of the previously submitted pieces of evidence changes
+
+- **Testing** - You've used our GET endpoints [GET /patient](/api-reference/patient/get-patient) and [GET /evidence](/api-reference/evidence/get-evidence) to verify that the data you've submitted is correct
