@@ -1,0 +1,40 @@
+---
+title: "Quickstart"
+description: "We'll have you up and running with the Develop Health API in no time!"
+---
+
+We've worked hard to make the Develop Health API as easy to use as possible. This guide will walk you through the steps to get up and running with the API.
+
+## 1. Authentication
+
+The gist is that we'll give you a token and you'll just need to add it to all your requests.
+For more information, see the [Authentication](/api-reference/authentication) section.
+
+### Making Requests
+
+There are just 2 endpoints you'll need to setup for your application. One to [create patients](/api-reference/patient/create-or-update), and one to [submit evidence](/api-reference/evidence/create-or-update). We call 'evidence' any data you send to us about a patient. For example a prescription, a lab result, or a clinical note. These are all pieces of evidence that we can directly reference when answering the prior authorization form.
+
+<Tip>
+  If you send us more evidence we can generate more accurate answers, so be
+  generous!
+</Tip>
+
+#### IDs
+
+You'll notice that both endpoints allow you to set an ID property. You should set this to your internal ID for the patient or evidence (i.e the visit note ID). This will allow you to update the patient or evidence in the future without having to store anything from us. For example, if you send us a prescription and then later the prescription is updated, you can send us the updated prescription with the same ID and we'll update our record.
+
+## 2. Create a patient
+
+The first thing you'll need to do is create patients. You can do this with the [get or create patient](/api-reference/patient/create-or-update) endpoint. You can call this same endpoint when a patient's information changes, and we'll update our records.
+
+This endpoint allows you to provide us with basic patient information such as name and date of birth.
+
+## 3. Send evidence
+
+Once you've created a patient, you can send us evidence about that patient. You can do this with the [get or create evidence](/api-reference/evidence/create-or-update) endpoint. You can similarly call this same endpoint when a patient's evidence changes, and we'll update our record.
+
+For a step by step walkthrough on what evidence to send us, see the [evidence overview page](/api-reference/evidence/overview).
+
+## 4. Sit back and let the magic happen
+
+We'll take it from here!

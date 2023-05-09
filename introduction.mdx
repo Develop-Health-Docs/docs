@@ -3,9 +3,31 @@ title: Introduction
 description: "Welcome to the Develop Health API Documentation"
 ---
 
-## API
+## Overview
 
-<CardGroup cols={2}>
+Develop Health uses AI to dramatically improve the medication prior authorization process. Our product uses AI to answer medical questions and automatically fill out forms. This allows providers and medical staff to complete the prior authorization process in just a couple of minutes instead of the 20+ minutes it normally takes.
+
+You can see a full demo of the product [here](https://www.loom.com/share/d71e8a855409462d9d794c4677d8cc00).
+
+## How it works
+
+The current implementation of the product is a chrome extension that sits on top of CoverMyMeds, a popular portal for submitting prior authorizations. When a member of the clinical team views the prior authorization form on CoverMyMeds, the extension will automatically fill out the form with the appropriate information.
+
+In order to do this, we need access to the same pieces of information that your clinical team uses to complete the form. This includes the following:
+
+- Patient information (name, date of birth, address, etc.)
+- Prescription information (drug name, dosage, quantity, etc.)
+- Intake form or the most recent visit note
+
+It may also include other information from the patient's medical record, such as their medical history or lab results.
+
+## Integration
+
+In order for us to accurately answer the forms in real time we need your patients data readily available in our system. We've built our API to make it as simple as possible for you to send over the relevant data. It's built in a 'fire and forget' manner. You just send us the data whenever changes occur, and we'll take care of the rest. There's nothing to save on your end and no database migrations required.
+
+Check out our API documentation to get started!
+
+<CardGroup cols={1}>
   <Card title="API Docs" icon="pen-to-square" href="/api-reference">
     Get started with our API documentation
   </Card>

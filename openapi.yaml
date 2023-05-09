@@ -1,109 +1,266 @@
-openapi: "3.0.0"
+openapi: 3.0.2
 info:
+  title: Develop Health Prior Authorization API
+  description: This API handles patient and evidence management for prior authorization purposes.
   version: 1.0.0
-  title: Swagger Petstore
-  license:
-    name: MIT
 servers:
-  - url: http://petstore.swagger.io/v1
+  - url: "https://api.develophealth.com/v1"
 paths:
-  /pets:
+  /patient/{id}:
     get:
-      summary: List all pets
-      operationId: listPets
-      tags:
-        - pets
+      summary: Retrieve patient by ID
+      operationId: getPatient
       parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        200:
-          description: An paged array of pets
-          headers:
-            x-next:
-              description: A link to the next page of responses
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    post:
-      summary: Create a pet
-      operationId: createPets
-      tags:
-        - pets
-      responses:
-        201:
-          description: Null response
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /pets/{petId}:
-    get:
-      summary: Info for a specific pet
-      operationId: showPetById
-      tags:
-        - pets
-      parameters:
-        - name: petId
+        - name: id
           in: path
           required: true
-          description: The id of the pet to retrieve
           schema:
             type: string
+          description: Patient ID
       responses:
-        200:
-          description: Expected response to a valid request
+        "200":
+          description: Patient object
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
+                $ref: "#/components/schemas/Patient"
+        "404":
+          description: Patient not found
+  /patient:
+    post:
+      summary: Create or update a patient
+      operationId: savePatient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Patient"
+      responses:
+        "200":
+          description: Patient successfully created or updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Patient"
+        "400":
+          description: Invalid input
+  /evidence/{id}:
+    get:
+      summary: Retrieve evidence by ID
+      operationId: getEvidence
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Evidence ID
+      responses:
+        "200":
+          description: Evidence object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Evidence"
+        "404":
+          description: Evidence not found
+  /evidence:
+    post:
+      summary: Create or update evidence
+      operationId: saveEvidence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Evidence"
+      responses:
+        "200":
+          description: Evidence successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Evidence"
+        "400":
+          description: Invalid input
 components:
   schemas:
-    Pet:
-      required:
-        - id
-        - name
+    Patient:
+      type: object
       properties:
         id:
+          type: string
+          example: patient_324kljSDF3jd
+        first_name:
+          type: string
+          example: Jane
+        last_name:
+          type: string
+          example: Smith
+        date_of_birth:
+          type: string
+          format: date
+          example: "1990-01-01"
+    Evidence:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 23423jksjdf
+        patient_id:
+          type: string
+          example: patient_324kljSDF3jd
+        type:
+          type: string
+          enum:
+            - Visit Note
+            - Prescription
+            - Intake Form
+            - Medication history
+            - Other
+          example: Visit Note
+        date_created:
+          type: string
+          format: date-time
+          example: "1997-07-16T19:20:00Z"
+        content:
+          description: The content object changes depending on the type property.
+          oneOf:
+            - $ref: "#/components/schemas/PrescriptionContent"
+            - $ref: "#/components/schemas/IntakeFormContent"
+            - $ref: "#/components/schemas/MedicationHistoryContent"
+            - $ref: "#/components/schemas/OtherContent"
+      examples:
+        prescriptionExample:
+          summary: Prescription Example
+          value:
+            id: 23423jksjdf
+            patient_id: patient_324kljSDF3jd
+            type: Prescription
+            date_created: "2023-05-01T08:00:00Z"
+            content:
+              drug_name: Ozempic
+              quantity: "1 pre-filled pen"
+              days_supply: 30
+              strength: "0.25mg"
+              directions: "Inject 0.25mg subcutaneously once weekly"
+              notes: "Store in refrigerator"
+        intakeFormExample:
+          summary: Intake Form Example
+          value:
+            id: 23423jksjdf
+            patient_id: patient_324kljSDF3jd
+            type: Intake Form
+            date_created: "2023-05-01T08:00:00Z"
+            content:
+              - id: Q12345
+                question: "Do you have any allergies?"
+                answer: ["Penicillin", "Peanuts"]
+                choices: ["Yes", "No"]
+        medicationHistoryExample:
+          summary: Medication History Example
+          value:
+            id: 23423jksjdf
+            patient_id: patient_324kljSDF3jd
+            type: Medication history
+            date_created: "2023-05-01T08:00:00Z"
+            content:
+              - id: M12345
+                drug_name: "Lisinopril"
+                dosage: "20mg daily"
+                choices: ["5mg", "10mg", "20mg", "40mg"]
+        otherExample:
+          summary: Other Example
+          value:
+            id: 23423jksjdf
+            patient_id: patient_324kljSDF3jd
+            type: Other
+            date_created: "2023-05-01T08:00:00Z"
+            content:
+              text: "Jane appears to have diabetes. That is unfortunate."
+    PrescriptionContent:
+      type: object
+      properties:
+        drug_name:
+          type: string
+          example: Aspirin
+        quantity:
+          type: string
+          nullable: true
+          example: "30 tablets"
+        days_supply:
           type: integer
-          format: int64
-        name:
+          nullable: true
+          example: 30
+        strength:
           type: string
-        tag:
+          nullable: true
+          example: "81mg"
+        directions:
           type: string
-    Pets:
+          nullable: true
+          example: "Take 1 tablet daily"
+        notes:
+          type: string
+          nullable: true
+          example: "Take with food"
+        other:
+          type: object
+    IntakeFormContent:
       type: array
       items:
-        $ref: "#/components/schemas/Pet"
-    Error:
-      required:
-        - code
-        - message
+        type: object
+        properties:
+          id:
+            type: string
+            nullable: true
+            example: Q12345
+          question:
+            type: string
+            example: "Do you have any allergies?"
+          answer:
+            oneOf:
+              - type: string
+                example: "No known allergies"
+              - type: array
+                items:
+                  type: string
+                example: ["Penicillin", "Peanuts"]
+          choices:
+            type: array
+            nullable: true
+            items:
+              type: string
+            example: ["Yes", "No"]
+          other:
+            type: object
+    MedicationHistoryContent:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            nullable: true
+            example: M12345
+          drug_name:
+            type: string
+            example: "Lisinopril"
+          dosage:
+            type: string
+            example: "20mg daily"
+          choices:
+            type: array
+            nullable: true
+            items:
+              type: string
+            example: ["5mg", "10mg", "20mg", "40mg"]
+          other:
+            type: object
+    OtherContent:
+      type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
+        text:
           type: string
+          example: "Jane appears to have diabetes. That is unfortunate."
