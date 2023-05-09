@@ -3,8 +3,129 @@ title: "What to Send"
 description: "We'll help you send all the evidence we need"
 ---
 
-Now we've just got to work out which pieces of evidence you need to send us. We'll help you with this! If you have any questions about what to send, please [get in touch](mailto:support@develophealth.io) and we will walk you through the process.
+Now we've just got to work out which pieces of evidence you need to send us. **We'll help you with this!** With a quick 20 minute call we can make sure you're sending exactly what you need to. If you haven't chatted with us yet please [get in touch](mailto:support@develophealth.io) and we will walk you through the entire process.
+
+## What we need
+
+### Required Evidence
+
+At the very least we need the prescription information and some clinical records backing up why the medication was prescribed. This can be in the form of a visit note, a questionnaire, or any other clinical record that you think is relevant.
+
+### Optional Evidence (optional but highly recommended if you have them)
+
+If you have any of the following pieces of evidence we highly recommend sending them over as well. This will help us to provide more accurate answers and improve the chance of the prior authorization being approved.
+
+- Medication history
+- Other visit notes
+- Problems list
+- Discontinued medications
 
 ## How to send it
 
 You'll use the [POST /evidence](/api-reference/evidence/post-evidence) endpoint to send us your evidence. You'll need to send us a JSON object with the following properties:
+
+<Accordion title="Evidence Request Body">
+  <ParamField body="id" type="string" required>
+    The unique identifier for the property
+  </ParamField>
+  <ParamField body="patient_id" type="string" required>
+    The patient ID. This should match with the ID of a previously created
+    patient
+  </ParamField>
+  <ParamField body="type" type="string" required>
+    Available options: Visit Note, Prescription, Questionnaire, Medication
+    History, Other
+  </ParamField>
+  <ParamField body="date_created" type="string" required>
+    The date when the record was created
+  </ParamField>
+  <ParamField body="content" type="object" required>
+    The content object changes depending on the type property
+  </ParamField>
+</Accordion>
+
+## Evidence Types
+
+The `type` property of the evidence object determines what the `content` object will look like. The following sections will describe the `content` object for each type of evidence.
+
+Type can be one of the following:
+
+- Visit Note
+- Prescription
+- Questionnaire
+- Medication History
+- Other
+
+Each content object also has an `other` key. You can use this nested object to include any other key value pairs that didn't fit into the predefined categories. This can be useful for adding other information that you think is useful that we haven't yet added to the top level fields. Our AI is able to handle a wide range of data and so we encourage you to send us as much relevant information as you can.
+
+### Visit Note
+
+We'll need the visit note that contains the doctors notes on why the patient is being given the prescribed medication. Normally this is the most recent note, but older notes can also provide important context.
+
+<Accordion title="Example Visit Note">
+```json
+{
+  "text": "Patient Jane Doe visited the clinic today for a routine checkup. Her diabetes is not adequately controlled with her current medication. Ozempic has been prescribed to help improve blood sugar management. She reports no significant changes or concerns. Follow-up appointment scheduled in 3 months."
+}
+```
+</Accordion>
+
+### Prescription
+
+We'll need the prescription that contains the details of the medication that was prescribed to the patient. This should include the name of the medication, the dosage, and the frequency.
+
+<Accordion title="Example Prescription">
+```json
+{
+  "drug_name": "Ozempic",
+  "quantity": "4 pens",
+  "days_supply": 30,
+  "strength": "0.5mg",
+  "directions": "Inject 0.5mg once a week",
+  "notes": "Store in refrigerator",
+  "other": {}
+}
+```
+</Accordion>
+
+### Questionnaire
+
+Any questionnaires that the patient has answered with relevant information in are worth sending over
+
+<Accordion title="Example Questionnaire">
+```json
+[
+  {
+    "id": "Q56789",
+    "question": "Are you currently taking any other medications for diabetes?",
+    "answer": "Yes",
+    "choices": ["Yes", "No"],
+    "other": {}
+  },
+  {
+    "id": "Q98765",
+    "question": "Have you experienced any side effects from your current diabetes medication?",
+    "answer": "No",
+    "choices": ["Yes", "No"],
+    "other": {}
+  }
+]
+```
+</Accordion>
+
+### Medication History
+
+<Accordion title="Example Medication History">
+```json
+[
+  {
+    "id": "M67890",
+    "drug_name": "Metformin",
+    "dosage": "1000mg daily",
+    "start_date": "2019-01-01",
+    "end_date": "2020-01-01",
+    "other": {}
+  }
+]
+```
+</Accordion>

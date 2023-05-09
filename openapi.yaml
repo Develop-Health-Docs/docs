@@ -37,7 +37,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Patient"
       responses:
-        "200":
+        "201":
           description: Patient successfully created or updated
           content:
             application/json:
@@ -45,6 +45,14 @@ paths:
                 $ref: "#/components/schemas/Patient"
         "400":
           description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid patient data"
   /evidence/{id}:
     get:
       summary: Retrieve evidence by ID
@@ -76,7 +84,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Evidence"
       responses:
-        "200":
+        "201":
           description: Evidence successfully created or updated
           content:
             application/json:
@@ -84,6 +92,14 @@ paths:
                 $ref: "#/components/schemas/Evidence"
         "400":
           description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid evidence data"
 components:
   schemas:
     Patient:
@@ -111,13 +127,14 @@ components:
         patient_id:
           type: string
           example: patient_324kljSDF3jd
+          description: "The patient ID. This should match with the ID of a previously created patient"
         type:
           type: string
           enum:
             - Visit Note
             - Prescription
-            - Intake Form
-            - Medication history
+            - Questionnaire
+            - Medication History
             - Other
           example: Visit Note
         date_created:
@@ -126,59 +143,12 @@ components:
           example: "1997-07-16T19:20:00Z"
         content:
           description: The content object changes depending on the type property.
+          type: object
           oneOf:
             - $ref: "#/components/schemas/PrescriptionContent"
-            - $ref: "#/components/schemas/IntakeFormContent"
+            - $ref: "#/components/schemas/QuestionnaireContent"
             - $ref: "#/components/schemas/MedicationHistoryContent"
             - $ref: "#/components/schemas/OtherContent"
-      examples:
-        prescriptionExample:
-          summary: Prescription Example
-          value:
-            id: 23423jksjdf
-            patient_id: patient_324kljSDF3jd
-            type: Prescription
-            date_created: "2023-05-01T08:00:00Z"
-            content:
-              drug_name: Ozempic
-              quantity: "1 pre-filled pen"
-              days_supply: 30
-              strength: "0.25mg"
-              directions: "Inject 0.25mg subcutaneously once weekly"
-              notes: "Store in refrigerator"
-        intakeFormExample:
-          summary: Intake Form Example
-          value:
-            id: 23423jksjdf
-            patient_id: patient_324kljSDF3jd
-            type: Intake Form
-            date_created: "2023-05-01T08:00:00Z"
-            content:
-              - id: Q12345
-                question: "Do you have any allergies?"
-                answer: ["Penicillin", "Peanuts"]
-                choices: ["Yes", "No"]
-        medicationHistoryExample:
-          summary: Medication History Example
-          value:
-            id: 23423jksjdf
-            patient_id: patient_324kljSDF3jd
-            type: Medication history
-            date_created: "2023-05-01T08:00:00Z"
-            content:
-              - id: M12345
-                drug_name: "Lisinopril"
-                dosage: "20mg daily"
-                choices: ["5mg", "10mg", "20mg", "40mg"]
-        otherExample:
-          summary: Other Example
-          value:
-            id: 23423jksjdf
-            patient_id: patient_324kljSDF3jd
-            type: Other
-            date_created: "2023-05-01T08:00:00Z"
-            content:
-              text: "Jane appears to have diabetes. That is unfortunate."
     PrescriptionContent:
       type: object
       properties:
@@ -207,7 +177,7 @@ components:
           example: "Take with food"
         other:
           type: object
-    IntakeFormContent:
+    QuestionnaireContent:
       type: array
       items:
         type: object
@@ -258,9 +228,16 @@ components:
             example: ["5mg", "10mg", "20mg", "40mg"]
           other:
             type: object
+  VisitNoteContent:
+    type: object
+    properties:
+      text:
+        type: string
+        example: "The following are my notes on John..."
+
     OtherContent:
       type: object
       properties:
         text:
           type: string
-          example: "Jane appears to have diabetes. That is unfortunate."
+          example: "Jane has diabetes"
