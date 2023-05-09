@@ -148,6 +148,7 @@ components:
             - $ref: "#/components/schemas/PrescriptionContent"
             - $ref: "#/components/schemas/QuestionnaireContent"
             - $ref: "#/components/schemas/MedicationHistoryContent"
+            - $ref: "#/components/schemas/VisitNoteContent"
             - $ref: "#/components/schemas/OtherContent"
     PrescriptionContent:
       type: object
@@ -228,12 +229,12 @@ components:
             example: ["5mg", "10mg", "20mg", "40mg"]
           other:
             type: object
-  VisitNoteContent:
-    type: object
-    properties:
-      text:
-        type: string
-        example: "The following are my notes on John..."
+    VisitNoteContent:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "The following are my notes on John..."
 
     OtherContent:
       type: object

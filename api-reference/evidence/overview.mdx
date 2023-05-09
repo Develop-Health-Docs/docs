@@ -67,7 +67,13 @@ We'll need the visit note that contains the doctors notes on why the patient is 
 <Accordion title="Example Visit Note">
 ```json
 {
-  "text": "Patient Jane Doe visited the clinic today for a routine checkup. Her diabetes is not adequately controlled with her current medication. Ozempic has been prescribed to help improve blood sugar management. She reports no significant changes or concerns. Follow-up appointment scheduled in 3 months."
+  "id": "23423jksjdf",
+  "patient_id": "patient_324kljSDF3jd",
+  "type": "Visit Note",
+  "date_created": "2022-07-16T19:20:00Z",
+  "content": {
+    "text": "Patient Jane Doe visited the clinic today for a routine checkup. Her diabetes is not adequately controlled with her current medication. Ozempic has been prescribed to help improve blood sugar management. She reports no significant changes or concerns. Follow-up appointment scheduled in 3 months."
+  }
 }
 ```
 </Accordion>
@@ -79,13 +85,19 @@ We'll need the prescription that contains the details of the medication that was
 <Accordion title="Example Prescription">
 ```json
 {
-  "drug_name": "Ozempic",
-  "quantity": "4 pens",
-  "days_supply": 30,
-  "strength": "0.5mg",
-  "directions": "Inject 0.5mg once a week",
-  "notes": "Store in refrigerator",
-  "other": {}
+  "id": "8234jkfd34",
+  "patient_id": "patient_324kljSDF3jd",
+  "type": "Prescription",
+  "date_created": "2022-07-16T19:20:00Z",
+  "content": {
+    "drug_name": "Ozempic",
+    "quantity": "4 pens",
+    "days_supply": 30,
+    "strength": "0.5mg",
+    "directions": "Inject 0.5mg once a week",
+    "notes": "Store in refrigerator",
+    "other": {}
+  }
 }
 ```
 </Accordion>
@@ -96,22 +108,28 @@ Any questionnaires that the patient has answered with relevant information in ar
 
 <Accordion title="Example Questionnaire">
 ```json
-[
-  {
-    "id": "Q56789",
-    "question": "Are you currently taking any other medications for diabetes?",
-    "answer": "Yes",
-    "choices": ["Yes", "No"],
-    "other": {}
-  },
-  {
-    "id": "Q98765",
-    "question": "Have you experienced any side effects from your current diabetes medication?",
-    "answer": "No",
-    "choices": ["Yes", "No"],
-    "other": {}
-  }
-]
+{
+  "id": "sdf12341das",
+  "patient_id": "patient_324kljSDF3jd",
+  "type": "Questionnaire",
+  "date_created": "2022-07-16T19:20:00Z",
+  "content": [
+    {
+      "id": "Q56789",
+      "question": "Are you currently taking any other medications for diabetes?",
+      "answer": "Yes",
+      "choices": ["Yes", "No"],
+      "other": {}
+    },
+    {
+      "id": "Q98765",
+      "question": "Have you experienced any side effects from your current diabetes medication?",
+      "answer": "No",
+      "choices": ["Yes", "No"],
+      "other": {}
+    }
+  ]
+}
 ```
 </Accordion>
 
@@ -121,16 +139,22 @@ The patients medication history helps us demonstrate that the patient has tried 
 
 <Accordion title="Example Medication History">
 ```json
-[
-  {
-    "id": "M67890",
-    "drug_name": "Metformin",
-    "dosage": "1000mg daily",
-    "start_date": "2019-01-01",
-    "end_date": "2020-01-01",
-    "other": {}
-  }
-]
+{
+  "id": "6123ae12ddw32",
+  "patient_id": "patient_324kljSDF3jd",
+  "type": "Medication History",
+  "date_created": "2022-07-16T19:20:00Z",
+  "content": [
+    {
+      "id": "M67890",
+      "drug_name": "Metformin",
+      "dosage": "1000mg daily",
+      "start_date": "2019-01-01",
+      "end_date": "2020-01-01",
+      "other": {}
+    }
+  ]
+}
 ```
 </Accordion>
 
@@ -140,9 +164,15 @@ If the content you want to send doesn't fit into any of the predefined categorie
 
 <Accordion title="Example Other Content">
 ```json
-  {
+{
+  "id": "2341",
+  "patient_id": "patient_324kljSDF3jd",
+  "type": "Other",
+  "date_created": "2022-07-16T19:20:00Z",
+  "content": {
     "title": "Lab Results",
     "other": {}
   }
+}
 ```
 </Accordion>
