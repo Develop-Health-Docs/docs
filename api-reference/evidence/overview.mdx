@@ -26,7 +26,9 @@ You'll use the [POST /evidence](/api-reference/evidence/post-evidence) endpoint 
 
 <Accordion title="Evidence Request Body">
   <ParamField body="id" type="string" required>
-    The unique identifier for the property
+    Your internal ID for this evidence. For example you could use the ID of the
+    visit note in your database. Note that this ID in combination with the
+    evidence type and patient_id must be unique.
   </ParamField>
   <ParamField body="patient_id" type="string" required>
     The patient ID. This should match with the ID of a previously created
@@ -56,7 +58,7 @@ Type can be one of the following:
 - Medication History
 - Other
 
-Each content object also has an `other` key. You can use this nested object to include any other key value pairs that didn't fit into the predefined categories. This can be useful for adding other information that you think is useful that we haven't yet added to the top level fields. Our AI is able to handle a wide range of data and so we encourage you to send us as much relevant information as you can.
+Each content object also has an `other` key. You can use this nested object to include any other key value pairs that didn't fit into the predefined categories. This can be useful for adding other information that you think is useful that we haven't yet added to the top level fields. Our AI uses large language models and is able to handle a wide range of unstructuted data. So, we encourage you to send us as much relevant information as you can and we'll see if we can use it!
 
 ### Visit Note
 
@@ -115,6 +117,8 @@ Any questionnaires that the patient has answered with relevant information in ar
 
 ### Medication History
 
+The patients medication history helps us demonstrate that the patient has tried other medications and that they have not been effective.
+
 <Accordion title="Example Medication History">
 ```json
 [
@@ -124,6 +128,21 @@ Any questionnaires that the patient has answered with relevant information in ar
     "dosage": "1000mg daily",
     "start_date": "2019-01-01",
     "end_date": "2020-01-01",
+    "other": {}
+  }
+]
+```
+</Accordion>
+
+### Other
+
+If the content you want to send doesn't fit into any of the predefined categories you can use the 'other' content type.
+
+<Accordion title="Example Other Content">
+```json
+[
+  {
+    "title": "Lab Results",
     "other": {}
   }
 ]
