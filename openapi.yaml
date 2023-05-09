@@ -4,7 +4,7 @@ info:
   description: This API handles patient and evidence management for prior authorization purposes.
   version: 1.0.0
 servers:
-  - url: "https://api.develophealth.com/v1"
+  - url: "https://api.develophealth.com"
 paths:
   /patient/{id}:
     get:
